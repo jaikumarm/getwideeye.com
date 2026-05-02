@@ -7,7 +7,7 @@
   <meta name="description" content="A hyper-minimal, ultrawide-optimized native macOS image viewer. Multi-pane layouts, keyboard-driven, privacy-first.">
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
-  <link rel="stylesheet" href="styles.css">
+
   <meta property="og:title" content="WideEye">
   <meta property="og:description" content="The image viewer for ultrawide displays.">
   <meta property="og:image" content="https://getwideeye.com/og-image.png">
@@ -17,117 +17,526 @@
   <meta property="og:image:alt" content="WideEye — the image viewer for ultrawide displays.">
   <meta property="og:url" content="https://getwideeye.com">
   <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="we-styles.css">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-1: #111;
+      --bg-2: #161616;
+      --fg: #f5f5f5;
+      --fg-2: #c8c8c8;
+      --muted: #8a8a8a;
+      --muted-2: #5a5a5a;
+      --line: #1f1f1f;
+      --line-2: #2a2a2a;
+      --accent: #e8a87c;
+      --accent-2: #f4c8a4;
+      --max-narrow: 920px;
+      --max: 1320px;
+      --max-wide: 1520px;
+      --pane-gap: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+    body { font-feature-settings: "ss01", "cv11"; }
+
+    .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+    .serif { font-family: "Instrument Serif", "Iowan Old Style", Georgia, serif; font-style: italic; font-weight: 400; }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+    .wrap-narrow { max-width: var(--max-narrow); margin: 0 auto; padding: 0 32px; }
+    .wrap-wide { max-width: var(--max-wide); margin: 0 auto; padding: 0 32px; }
+
+    .eyebrow {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 1px;
+      background: var(--muted-2);
+    }
+
+    a { color: var(--fg); text-decoration: none; }
+    a:hover { color: var(--accent); }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11px;
+      line-height: 1;
+      padding: 6px 8px;
+      min-width: 24px;
+      background: #161616;
+      border: 1px solid var(--line-2);
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      color: var(--fg);
+    }
+
+    /* ───────── Header ───────── */
+    header.site {
+      position: sticky; top: 0; z-index: 50;
+      padding: 18px 0;
+      backdrop-filter: blur(20px) saturate(120%);
+      -webkit-backdrop-filter: blur(20px) saturate(120%);
+      background: rgba(10,10,10,0.6);
+      border-bottom: 1px solid var(--line);
+    }
+    header.site .row {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .brand img { width: 24px; height: 24px; border-radius: 6px; }
+    header nav {
+      display: flex; gap: 28px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    header nav a { color: var(--muted); }
+    header nav a:hover { color: var(--fg); }
+
+    /* ───────── Hero — split layout ───────── */
+    .hero { padding: 24px 0 12px; position: relative; overflow: hidden; }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: minmax(320px, 0.85fr) minmax(0, 1.15fr);
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-copy { text-align: left; }
+    .hero h1 {
+      font-size: clamp(36px, 4.2vw, 60px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      font-weight: 600;
+      margin: 12px 0 0;
+    }
+    .hero h1 .serif { font-size: 1.05em; letter-spacing: -0.02em; color: var(--accent); }
+    .hero .tag {
+      max-width: 440px;
+      margin: 12px 0 0;
+      font-size: 15px;
+      line-height: 1.45;
+      color: var(--fg-2);
+    }
+    .hero .tag em { color: var(--muted); font-style: normal; }
+    .hero-actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 1200px 600px at 50% 20%, color-mix(in oklab, var(--accent) 8%, transparent), transparent 60%);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .btn {
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      padding: 13px 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: var(--fg); color: #0a0a0a; }
+    .btn-primary:hover { background: var(--accent-2); color: #0a0a0a; }
+    .btn-ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
+    .btn-ghost:hover { border-color: var(--muted); color: var(--fg); }
+    .btn .mono { font-size: 11px; opacity: 0.6; }
+    .btn-disabled {
+      background: transparent; color: var(--muted);
+      border-color: var(--line-2);
+      cursor: default;
+    }
+
+    /* ───────── Sections ───────── */
+    section.block {
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      position: relative;
+    }
+    section.block.tight { padding: 28px 0; }
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .sec-head h2 {
+      font-size: clamp(26px, 3vw, 36px);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      font-weight: 600;
+      margin: 6px 0 0;
+      max-width: 720px;
+    }
+    .sec-head h2 .serif { color: var(--accent); }
+    .sec-head .lead { color: var(--muted); max-width: 380px; font-size: 15px; line-height: 1.55; }
+
+    /* ───────── Footer ───────── */
+    footer.site {
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer.site .row.mini {
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
+    .footer-brand img { width: 22px; height: 22px; border-radius: 6px; }
+    .footer-brand b { font-size: 14px; font-weight: 600; color: var(--fg); }
+    .footer-links { display: flex; gap: 22px; font-size: 12px; }
+    .footer-links a { color: var(--muted); }
+    .footer-links a:hover { color: var(--accent); }
+
+    .accent { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+      .hero-copy { text-align: center; }
+      .hero .tag { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      header nav { display: none; }
+    }
+    @media (max-width: 720px) {
+      .hero { padding: 16px 0 8px; }
+      section.block { padding: 32px 0; }
+    }
+  </style>
 </head>
 <body>
 
 <header class="site">
-  <div class="wrap">
+  <div class="row">
     <a href="/" class="brand">
       <img src="icon.png" alt="">
       WideEye
     </a>
     <nav>
+      <a href="#features">Features</a>
+      <a href="#manifesto">Boundaries</a>
+      <a href="#shortcuts">Shortcuts</a>
       <a href="/privacy.html">Privacy</a>
-      <a href="/support.html">Support</a>
     </nav>
   </div>
 </header>
 
 <main>
+
+  <!-- ───────── Hero ───────── -->
   <section class="hero">
-    <div class="wrap">
-      <img src="icon.png" alt="WideEye app icon" class="icon">
-      <h1>WideEye</h1>
-      <p class="tag">The image viewer for ultrawide displays.</p>
-      <!-- When the app ships on the Mac App Store, replace the line below with:
-           <a class="cta" href="https://apps.apple.com/app/idXXXXXXXXX">Get it on the Mac App Store</a> -->
-      <span class="cta disabled">Coming soon to the Mac App Store</span>
-    </div>
-    <div class="hero-shot">
-      <picture>
-        <source srcset="hero-5pane.avif" type="image/avif">
-        <img src="hero-5pane.jpg" alt="WideEye in five-pane mode — a dramatic sea stack arch in the center pane, ocean and waterfall images flanking it, and the thumbnail strip visible below." width="1920" height="810" fetchpriority="high">
-      </picture>
-    </div>
-  </section>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">For ultrawide displays&nbsp;·&nbsp;21:9 and beyond</span>
+        <h1>Five panes.<br><span class="serif">One</span> arrow key.</h1>
+        <p class="tag">A hyper-minimal native macOS image viewer for ultrawide displays. Multi-pane layouts, keyboard-driven, <em>privacy-first by design.</em></p>
+        <div class="hero-actions">
+          <!-- When the app ships on the Mac App Store, replace the disabled span with:
+               <a class="btn btn-primary" href="https://apps.apple.com/app/idXXXXXXXXX">
+                 <span>Get it on the Mac App Store</span><span class="mono">↗</span>
+               </a> -->
+          <span class="btn btn-disabled">
+            <span>Coming soon</span>
+            <span class="mono">↗</span>
+          </span>
+          <a class="btn btn-ghost" href="#features">
+            <span>See features</span>
+            <span class="mono">↓</span>
+          </a>
+        </div>
+      </div>
 
-  <section>
-    <div class="wrap">
-      <h2>What it does</h2>
-      <p class="sub">A strict viewer — sharp, fast, keyboard-driven. Built for the way ultrawide screens want to be used.</p>
-      <div class="features">
-        <div class="feature">
-          <h3>Multi-pane layouts</h3>
-          <p>Switch between 1, 2, 3, or 5 panes with a single key. Three-pane is the default — adjacent context where ultrawide gives you the room.</p>
+      <div class="hero-stage" style="margin:0;padding:0;max-width:none">
+        <div class="we-app">
+          <div class="we-screenshot-stack">
+            <picture><source srcset="pane-1panel.avif" type="image/avif"><img class="we-screenshot" src="pane-1panel.jpg" alt="1-pane layout" data-n="1" data-active="false" draggable="false"></picture>
+            <picture><source srcset="pane-2panel.avif" type="image/avif"><img class="we-screenshot" src="pane-2panel.jpg" alt="2-pane layout" data-n="2" data-active="false" draggable="false"></picture>
+            <picture><source srcset="pane-3panel.avif" type="image/avif"><img class="we-screenshot" src="pane-3panel.jpg" alt="3-pane layout" data-n="3" data-active="true" draggable="false"></picture>
+            <picture><source srcset="pane-5panel.avif" type="image/avif"><img class="we-screenshot" src="pane-5panel.jpg" alt="5-pane layout" data-n="5" data-active="false" draggable="false"></picture>
+          </div>
         </div>
-        <div class="feature">
-          <h3>Keyboard-first</h3>
-          <p>Arrow keys, space, home/end, jump-by-ten, fullscreen, slideshow, EXIF — every action lives on the keyboard.</p>
-        </div>
-        <div class="feature">
-          <h3>EXIF on tap</h3>
-          <p>Camera, lens, exposure, ISO, focal length, location. Hit <code>I</code> to toggle. No editing, just inspection.</p>
-        </div>
-        <div class="feature">
-          <h3>Slideshow with shuffle</h3>
-          <p>Plays at your pace, with optional shuffle. Header pill shows what's playing without breaking the frame.</p>
-        </div>
-        <div class="feature">
-          <h3>Drop a folder, you're in</h3>
-          <p>Drag a folder onto the Dock icon, or use <kbd>⌘O</kbd>. WideEye scans and starts showing.</p>
-        </div>
-        <div class="feature">
-          <h3>Native &amp; quiet</h3>
-          <p>SwiftUI, dark by default, frame autosave, native fullscreen. Window remembers its place; nothing else does.</p>
+        <div class="hero-try mono">
+          <span style="opacity:0.55">Try:</span>
+          <span style="display:inline-flex;gap:6px;align-items:center">
+            Press
+            <button class="hero-try-key" data-n="1"><kbd>1</kbd></button>
+            <button class="hero-try-key" data-n="2"><kbd>2</kbd></button>
+            <button class="hero-try-key" data-n="3" data-active="true"><kbd>3</kbd></button>
+            <button class="hero-try-key" data-n="5"><kbd>5</kbd></button>
+          </span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="boundaries">
+  <!-- ───────── Features ───────── -->
+  <section class="block" id="features">
     <div class="wrap">
-      <h2>What it doesn't do</h2>
-      <p class="sub">The boundaries are the value.</p>
-      <ul>
-        <li>No editing, no filters, no crop</li>
-        <li>No delete, no rename, no export</li>
-        <li>No AI, no tagging, no faces</li>
-        <li>No cloud, no sync, no account</li>
-        <li>No analytics, no telemetry, no network</li>
-        <li>No persistent content state — incognito by design</li>
-      </ul>
+      <div class="sec-head">
+        <h2>A strict viewer.<br><span class="serif">Sharp, fast, keyboard-driven.</span></h2>
+      </div>
+
+      <div class="feat-grid">
+        <!-- Large showcase: multi-pane mini demo -->
+        <div class="feat-card large">
+          <h3 class="feat-title">1, 2, 3, or 5 panes.<br>Switch with one key.</h3>
+          <p class="feat-desc">Three-pane is the default — adjacent context where ultrawide gives you the room. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>5</kbd> to swap layouts instantly. No menus, no settings panels.</p>
+          <div class="feat-visual">
+            <div class="mini-pane-wrap">
+              <picture><source srcset="pane-1panel.avif" type="image/avif"><img class="mini-pane-img" src="pane-1panel.jpg" alt="1-pane" data-n="1" data-active="false" draggable="false"></picture>
+              <picture><source srcset="pane-2panel.avif" type="image/avif"><img class="mini-pane-img" src="pane-2panel.jpg" alt="2-pane" data-n="2" data-active="false" draggable="false"></picture>
+              <picture><source srcset="pane-3panel.avif" type="image/avif"><img class="mini-pane-img" src="pane-3panel.jpg" alt="3-pane" data-n="3" data-active="true" draggable="false"></picture>
+              <picture><source srcset="pane-5panel.avif" type="image/avif"><img class="mini-pane-img" src="pane-5panel.jpg" alt="5-pane" data-n="5" data-active="false" draggable="false"></picture>
+              <div class="mini-pane-label mono">3-pane</div>
+            </div>
+          </div>
+          <div class="feat-credit mono">
+            <a href="/credits.html">Photos: Unsplash credits&nbsp;↗</a>
+          </div>
+        </div>
+
+        <!-- Keyboard — tall left column -->
+        <div class="feat-card tall">
+          <h3 class="feat-title">Every action,<br>on the keyboard.</h3>
+          <p class="feat-desc">Arrow keys, space, jump-by-ten, fullscreen, slideshow, EXIF. Your hands never leave home row.</p>
+          <div class="feat-visual">
+            <div class="kbd-demo">
+              <div class="kbd-demo-row"><span>Navigate</span><span class="keys"><kbd>←</kbd><kbd>→</kbd></span></div>
+              <div class="kbd-demo-row"><span>Slideshow</span><span class="keys"><kbd>Space</kbd></span></div>
+              <div class="kbd-demo-row"><span>EXIF inspector</span><span class="keys"><kbd>I</kbd></span></div>
+              <div class="kbd-demo-row"><span>Fullscreen</span><span class="keys"><kbd>F</kbd></span></div>
+              <div class="kbd-demo-row"><span>Pane count</span><span class="keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>5</kbd></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column stack: EXIF + two small -->
+        <div class="feat-card">
+          <h3 class="feat-title">Inspection, not editing.</h3>
+          <p class="feat-desc">Camera, lens, exposure, ISO, focal length, location. Hit <kbd>I</kbd> to toggle. WideEye does not modify your files.</p>
+          <div class="feat-visual">
+            <div class="exif-demo">
+              <div class="row"><span>Camera</span><span class="v">Sony α7R V</span></div>
+              <div class="row"><span>Lens</span><span class="v">FE 16-35mm GM</span></div>
+              <div class="row"><span>Focal</span><span class="v">24mm</span></div>
+              <div class="row"><span>ISO</span><span class="v">100</span></div>
+              <div class="row"><span>Aperture</span><span class="v">ƒ/11</span></div>
+              <div class="row"><span>Shutter</span><span class="v">30 s</span></div>
+              <div class="row"><span>Location</span><span class="v">Hvítserkur, IS</span></div>
+              <div class="row"><span>Captured</span><span class="v">2025-09-14</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card small">
+          <h3 class="feat-title">Slideshow with shuffle</h3>
+          <p class="feat-desc">Plays at your pace. Header pill shows what's on without breaking the frame.</p>
+        </div>
+        <div class="feat-card small">
+          <h3 class="feat-title">Drop a folder, you're in</h3>
+          <p class="feat-desc">Drag onto the Dock icon, or <kbd>⌘O</kbd>. WideEye scans and starts showing.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="shortcuts">
+  <!-- ───────── Manifesto ───────── -->
+  <section class="block manifesto" id="manifesto">
     <div class="wrap">
-      <h2>Every action, on the keyboard</h2>
-      <p class="sub">No menus. No mouse hunting.</p>
-      <div class="key-row">
-        <kbd>←</kbd>
-        <kbd>→</kbd>
-        <kbd>Space</kbd>
-        <kbd>I</kbd>
-        <kbd>F</kbd>
-        <kbd>1</kbd>
-        <kbd>2</kbd>
-        <kbd>3</kbd>
-        <kbd>5</kbd>
+      <div class="manifesto-grid">
+        <div>
+          <h2 style="font-size:clamp(28px,3.4vw,44px);letter-spacing:-0.03em;line-height:1.02;font-weight:600;margin:0 0 16px">
+            The boundaries<br><span class="serif">are the value.</span>
+          </h2>
+          <p style="color:var(--muted);font-size:14px;max-width:360px;line-height:1.5;margin:0">
+            Every feature WideEye doesn't have was a choice. The shape of the app is what's left when you remove everything an image viewer doesn't need.
+          </p>
+          <p class="quote" style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:24px;line-height:1.2;letter-spacing:-0.01em;color:var(--fg);margin:32px 0 8px;max-width:360px">
+            &ldquo;The window <span class="accent">remembers its place;</span> nothing else does.&rdquo;
+          </p>
+          <p class="mono" style="font-size:11px;color:var(--muted);letter-spacing:0.04em">— design principle №1</p>
+        </div>
+
+        <ul class="manifesto-list">
+          <li><span class="num">01</span><span class="strike">No editing, no filters, no crop</span><span class="why">It's a viewer.</span></li>
+          <li><span class="num">02</span><span class="strike">No delete, no rename, no export</span><span class="why">Inspection, not modification.</span></li>
+          <li><span class="num">03</span><span class="strike">No AI, no tagging, no faces</span><span class="why">Your photos are not training data.</span></li>
+          <li><span class="num">04</span><span class="strike">No cloud, no sync, no account</span><span class="why">There is nothing to sign into.</span></li>
+          <li><span class="num">05</span><span class="strike">No analytics, no telemetry, no network</span><span class="why">It does not phone home.</span></li>
+          <li><span class="num">06</span><span class="strike">No persistent content state</span><span class="why">Incognito by design.</span></li>
+        </ul>
       </div>
-      <p class="more"><a href="/shortcuts.html">See all shortcuts →</a></p>
     </div>
   </section>
+
+  <!-- ───────── Shortcuts + Privacy ───────── -->
+  <section class="block" id="shortcuts">
+    <div class="wrap">
+      <div class="sp-grid">
+        <!-- Keyboard side -->
+        <div>
+          <h2 style="font-size:clamp(24px,2.6vw,32px);letter-spacing:-0.03em;line-height:1.05;font-weight:600;margin:0 0 16px">
+            No menus.<br><span class="serif">No mouse hunting.</span>
+          </h2>
+
+          <div class="kbmap" style="padding:20px">
+            <div class="kbmap-rows">
+              <div class="kbmap-row">
+                <button class="kbmap-key" data-k="Esc">Esc</button>
+                <button class="kbmap-key" data-k="1">1<span class="badge">1</span></button>
+                <button class="kbmap-key" data-k="2">2<span class="badge">2</span></button>
+                <button class="kbmap-key" data-k="3">3<span class="badge">3</span></button>
+                <button class="kbmap-key" data-k="5">5<span class="badge">5</span></button>
+              </div>
+              <div class="kbmap-row">
+                <button class="kbmap-key mod" data-k="Q">Q</button>
+                <button class="kbmap-key mod" data-k="W">W</button>
+                <button class="kbmap-key" data-k="I">I</button>
+                <button class="kbmap-key mod" data-k="O">O</button>
+              </div>
+              <div class="kbmap-row">
+                <button class="kbmap-key mod" data-k="A">A</button>
+                <button class="kbmap-key" data-k="S">S</button>
+                <button class="kbmap-key" data-k="F">F</button>
+                <button class="kbmap-key" data-k="↑">↑</button>
+              </div>
+              <div class="kbmap-row">
+                <button class="kbmap-key" data-k="←">←</button>
+                <button class="kbmap-key" data-k="↓">↓</button>
+                <button class="kbmap-key" data-k="→">→</button>
+                <button class="kbmap-key xwide" data-k="Space">Space</button>
+              </div>
+              <div class="kbmap-row">
+                <button class="kbmap-key wide" data-k="⌘O">⌘O</button>
+                <button class="kbmap-key wide" data-k="⌘W">⌘W</button>
+                <button class="kbmap-key wide" data-k="⌘Q">⌘Q</button>
+                <button class="kbmap-key wide" data-k="Home">Home</button>
+                <button class="kbmap-key wide" data-k="End">End</button>
+              </div>
+            </div>
+            <div class="kbmap-readout">Hover any key to see what it does.</div>
+          </div>
+
+          <p style="margin-top:12px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace">
+            <a href="/shortcuts.html" style="color:var(--muted)">See the full reference →</a>
+          </p>
+        </div>
+
+        <!-- Privacy side -->
+        <div>
+          <h2 style="font-size:clamp(24px,2.6vw,32px);letter-spacing:-0.03em;line-height:1.05;font-weight:600;margin:0 0 16px">
+            Nothing leaves<br><span class="serif">the machine.</span>
+          </h2>
+          <p style="color:var(--fg-2);font-size:15px;line-height:1.5;margin:0 0 20px;max-width:460px">
+            No accounts. No telemetry. No background uploads. WideEye reads your folder and shows your photos. That's the entire data flow.
+          </p>
+
+          <div class="privacy-diagram">
+            <div class="node live">Your folder</div>
+            <div class="arrow">→</div>
+            <div class="node live">WideEye<br>(local)</div>
+            <div class="arrow x">&nbsp;</div>
+            <div class="node dead">Cloud</div>
+          </div>
+
+          <div class="netlog">
+            <div class="netlog-head">
+              <span class="dot"></span>
+              <span class="mono">network.log</span>
+              <span class="mono netlog-meta">live · Little Snitch verifiable</span>
+            </div>
+            <div class="netlog-body mono">
+              <div class="netlog-row"><span class="k">requests on launch</span><span class="v zero">0</span></div>
+              <div class="netlog-row"><span class="k">requests in normal use</span><span class="v zero">0</span></div>
+              <div class="netlog-row"><span class="k">domains contacted</span><span class="v zero">—</span></div>
+              <div class="netlog-row"><span class="k">background daemons</span><span class="v zero">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site">
-  <div class="wrap">
-    <div>© 2026 WideEye</div>
-    <nav>
+  <div class="row mini">
+    <div class="footer-brand">
+      <img src="icon.png" alt="">
+      <b>WideEye</b>
+    </div>
+    <div class="footer-links mono">
       <a href="/privacy.html">Privacy</a>
       <a href="/support.html">Support</a>
-    </nav>
+      <a href="/credits.html">Credits</a>
+      <a href="mailto:support@getwideeye.com">support@getwideeye.com</a>
+    </div>
+    <span class="mono" style="color:var(--muted-2);font-size:12px">© 2026</span>
   </div>
 </footer>
+
+<script src="we-app.js" defer></script>
 
 </body>
 </html>

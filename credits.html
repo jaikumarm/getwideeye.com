@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credits — WideEye</title>
+  <meta name="description" content="Photo credits and attributions for WideEye marketing materials.">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <meta property="og:title" content="Credits — WideEye">
+  <meta property="og:description" content="Photo credits and attributions for WideEye marketing materials.">
+  <meta property="og:image" content="https://getwideeye.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:url" content="https://getwideeye.com/credits.html">
+  <meta name="twitter:card" content="summary_large_image">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-1: #111;
+      --fg: #f5f5f5;
+      --fg-2: #c8c8c8;
+      --muted: #8a8a8a;
+      --muted-2: #5a5a5a;
+      --line: #1f1f1f;
+      --line-2: #2a2a2a;
+      --accent: #e8a87c;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Inter", -apple-system, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+    .serif { font-family: "Instrument Serif", Georgia, serif; font-style: italic; }
+    a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+    a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+
+    header.site {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(20px);
+      background: rgba(10, 10, 10, 0.6);
+      position: sticky; top: 0; z-index: 50;
+    }
+    header.site .row {
+      max-width: 1320px; margin: 0 auto; padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 600; letter-spacing: -0.01em;
+      border-bottom: 0;
+    }
+    .brand img { width: 24px; height: 24px; border-radius: 6px; }
+    header nav { display: flex; gap: 28px; font-family: "JetBrains Mono", monospace; font-size: 12px; }
+    header nav a { color: var(--muted); border-bottom: 0; }
+    header nav a:hover { color: var(--fg); }
+
+    article.doc { padding: 64px 0 96px; }
+    h1 {
+      font-size: clamp(36px, 4.2vw, 56px);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 0.98;
+      margin: 0 0 8px;
+    }
+    h1 .serif { color: var(--accent); }
+    .meta {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 36px;
+      letter-spacing: 0.04em;
+    }
+    .lede {
+      font-size: 17px;
+      color: var(--fg-2);
+      max-width: 580px;
+      margin: 0 0 48px;
+      line-height: 1.55;
+    }
+
+    .credits-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-top: 1px solid var(--line);
+    }
+    .credits-list li {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      align-items: baseline;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .credits-list .num {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--muted-2);
+      letter-spacing: 0.06em;
+    }
+    .credits-list .what {
+      color: var(--fg);
+      font-size: 15px;
+    }
+    .credits-list .what .hint {
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+    .credits-list .who {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: var(--fg-2);
+    }
+    .credits-list .who a { color: var(--fg-2); border-bottom-color: var(--line-2); }
+    .credits-list .who a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .source-note {
+      margin: 56px 0 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--bg-1);
+      font-size: 14px;
+      color: var(--fg-2);
+      line-height: 1.55;
+    }
+    .source-note .mono { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 8px; }
+
+    footer.site {
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer.site .row {
+      max-width: 1520px; margin: 0 auto; padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+    }
+    footer .footer-brand { display: flex; align-items: center; gap: 10px; }
+    footer .footer-brand img { width: 22px; height: 22px; border-radius: 6px; }
+    footer .footer-brand b { color: var(--fg); font-size: 14px; font-weight: 600; }
+    footer .footer-links { display: flex; gap: 22px; font-size: 12px; font-family: "JetBrains Mono", monospace; }
+    footer .footer-links a { color: var(--muted); border-bottom: 0; }
+    footer .footer-links a:hover { color: var(--accent); }
+
+    @media (max-width: 720px) {
+      .credits-list li { grid-template-columns: 40px 1fr; }
+      .credits-list .who { grid-column: 2; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site">
+  <div class="row">
+    <a href="/" class="brand">
+      <img src="icon.png" alt="">
+      WideEye
+    </a>
+    <nav>
+      <a href="/#features">Features</a>
+      <a href="/#manifesto">Boundaries</a>
+      <a href="/#shortcuts">Shortcuts</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="wrap">
+    <h1>Photo <span class="serif">credits.</span></h1>
+    <p class="meta">Sample images used in marketing materials</p>
+
+    <p class="lede">
+      The example landscapes shown in WideEye's website and screenshots are placeholder photographs from Unsplash. WideEye itself does not ship with any photos &mdash; it shows whatever folder you point it at.
+    </p>
+
+    <ul class="credits-list">
+      <li>
+        <span class="num">01</span>
+        <span class="what">Snow-covered mountain <span class="hint">cloudy sky</span></span>
+        <span class="who"><a href="https://unsplash.com/@thomi" target="_blank" rel="noopener">Thomas Fatin →</a></span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span class="what">Icy cave</span>
+        <span class="who"><a href="https://unsplash.com/@heavenland" target="_blank" rel="noopener">Kenneth Kuan →</a></span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span class="what">Person on cliff <span class="hint">large waterfalls</span></span>
+        <span class="who"><a href="https://unsplash.com/@mahkeo" target="_blank" rel="noopener">Khamkéo →</a></span>
+      </li>
+      <li>
+        <span class="num">04</span>
+        <span class="what">Aerial waterfalls <span class="hint">near mountains</span></span>
+        <span class="who"><a href="https://unsplash.com/@robertbye" target="_blank" rel="noopener">Robert Bye →</a></span>
+      </li>
+      <li>
+        <span class="num">05</span>
+        <span class="what">Brown monolith rock <span class="hint">on seashore</span></span>
+        <span class="who"><a href="https://unsplash.com/@jonathangallegos" target="_blank" rel="noopener">Jonathan Gallegos →</a></span>
+      </li>
+      <li>
+        <span class="num">06</span>
+        <span class="what">Aurora reflected in water</span>
+        <span class="who"><a href="https://unsplash.com/@lachlangowen" target="_blank" rel="noopener">Lachlan Gowen →</a></span>
+      </li>
+      <li>
+        <span class="num">07</span>
+        <span class="what">Aerial view <span class="hint">water across green mountains</span></span>
+        <span class="who"><a href="https://unsplash.com/@jonnyauh" target="_blank" rel="noopener">Jonny Auh →</a></span>
+      </li>
+    </ul>
+
+    <div class="source-note">
+      <span class="mono">A note on attribution</span>
+      All sample photographs are sourced from the <a href="https://unsplash.com/collections/lwWdW3oUUXo/WideEye" target="_blank" rel="noopener" style="color: var(--fg);">WideEye Unsplash collection</a>, used under the Unsplash License. Each contributor's profile is linked above.
+    </div>
+  </div>
+</article>
+
+<footer class="site">
+  <div class="row">
+    <div class="footer-brand">
+      <img src="icon.png" alt="">
+      <b>WideEye</b>
+    </div>
+    <div class="footer-links">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/support.html">Support</a>
+      <a href="/credits.html">Credits</a>
+      <a href="mailto:support@getwideeye.com">support@getwideeye.com</a>
+    </div>
+    <span class="mono" style="color: var(--muted-2); font-size: 12px;">© 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
