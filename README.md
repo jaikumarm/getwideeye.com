@@ -1,7 +1,8 @@
 # getwideeye.com
 
-Marketing site for [WideEye](https://github.com/jaikumarm/wideeye) — a hyper-minimal,
-ultrawide-optimized native macOS image viewer.
+Marketing site for **WideEye** — a hyper-minimal, ultrawide-optimized
+native macOS image viewer. The app source repo is private (paid App
+Store distribution); this repo is the public face.
 
 Plain static site, served via GitHub Pages with the custom domain `getwideeye.com`.
 
@@ -10,6 +11,7 @@ Plain static site, served via GitHub Pages with the custom domain `getwideeye.co
 - `index.html` — landing page
 - `privacy.html` — privacy policy (required for App Store submission)
 - `support.html` — support / contact page
+- `shortcuts.html` — full keyboard reference
 - `styles.css` — single shared stylesheet
 - `icon.png` — 1024×1024 app icon (mirror of `Sources/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png` in the app repo)
 - `CNAME` — custom domain for GitHub Pages
