@@ -112,6 +112,16 @@ header.site nav a:hover { color: var(--fg); }
   border: 1px solid var(--line);
   cursor: default;
 }
+.hero-shot {
+  max-width: 1200px;
+  margin: 56px auto 0;
+  padding: 0 32px;
+}
+.hero-shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 section {
   padding: 64px 0;
@@ -298,6 +308,7 @@ article.doc ul { padding-left: 20px; }
   .hero { padding: 56px 0 48px; }
   .hero h1 { font-size: 40px; }
   .hero .tag { font-size: 18px; }
+  .hero-shot { margin: 32px auto 0; padding: 0 16px; }
   .features, .boundaries ul, .shortcut-groups { grid-template-columns: 1fr; }
   section { padding: 48px 0; }
   article.doc h1 { font-size: 32px; }
