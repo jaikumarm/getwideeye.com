@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <title>WideEye — OG card</title>
+  <style>
+    html, body { margin: 0; padding: 0; background: #0a0a0a; }
+    .og {
+      width: 1200px;
+      height: 630px;
+      box-sizing: border-box;
+      background: #0a0a0a;
+      color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .og img.icon {
+      width: 144px;
+      height: 144px;
+      border-radius: 32px;
+      margin-bottom: 36px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+    .og h1 {
+      margin: 0 0 20px;
+      font-size: 104px;
+      line-height: 1;
+      letter-spacing: -0.035em;
+      font-weight: 700;
+    }
+    .og .tag {
+      margin: 0 0 56px;
+      font-size: 32px;
+      color: #8a8a8a;
+      letter-spacing: -0.005em;
+    }
+    .og .panes {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .og .pane {
+      background: #1a1a1a;
+      border: 1px solid #1f1f1f;
+      border-radius: 4px;
+    }
+    .og .pane.s { width: 36px; height: 22px; }
+    .og .pane.m { width: 60px; height: 36px; }
+    .og .pane.l { width: 180px; height: 108px; background: linear-gradient(135deg, #1f1f1f, #2a2a2a); }
+    .og .domain {
+      position: absolute;
+      bottom: 36px;
+      right: 44px;
+      font-size: 18px;
+      color: #4a4a4a;
+      letter-spacing: 0.01em;
+    }
+  </style>
+</head>
+<body>
+  <div class="og">
+    <img src="icon.png" class="icon" alt="">
+    <h1>WideEye</h1>
+    <p class="tag">The image viewer for ultrawide displays.</p>
+    <div class="panes">
+      <div class="pane s"></div>
+      <div class="pane m"></div>
+      <div class="pane l"></div>
+      <div class="pane m"></div>
+      <div class="pane s"></div>
+    </div>
+    <span class="domain">getwideeye.com</span>
+  </div>
+</body>
+</html>
